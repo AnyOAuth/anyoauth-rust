@@ -1,0 +1,276 @@
+{
+  "schemas": {
+    "Provider": {
+      "type": "string",
+      "enum": [
+        "google",
+        "github"
+      ]
+    },
+    "RedirectUri": {
+      "type": "string",
+      "format": "uri",
+      "maxLength": 2048,
+      "x-validation": "redirect",
+      "description": "Exact registered HTTPS URL or HTTP loopback; no credentials, query or fragment."
+    },
+    "TokenRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "grant_type",
+        "client_id",
+        "client_secret",
+        "code",
+        "redirect_uri",
+        "code_verifier"
+      ],
+      "properties": {
+        "grant_type": {
+          "type": "string",
+          "const": "authorization_code"
+        },
+        "client_id": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "client_secret": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "redirect_uri": {
+          "$ref": "#/components/schemas/RedirectUri"
+        },
+        "code_verifier": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._~-]{43,128}$"
+        }
+      }
+    },
+    "TokenResponse": {
+      "type": "object",
+      "required": [
+        "access_token",
+        "token_type",
+        "expires_in",
+        "scope"
+      ],
+      "properties": {
+        "access_token": {
+          "type": "string",
+          "pattern": "^aop_[A-Za-z0-9_-]{43}$"
+        },
+        "token_type": {
+          "type": "string",
+          "const": "Bearer"
+        },
+        "expires_in": {
+          "type": "integer",
+          "const": 900
+        },
+        "scope": {
+          "type": "string",
+          "const": "profile"
+        }
+      }
+    },
+    "Profile": {
+      "type": "object",
+      "required": [
+        "subject",
+        "provider",
+        "providerSubject",
+        "name",
+        "username",
+        "email",
+        "emailVerified",
+        "avatarUrl"
+      ],
+      "properties": {
+        "subject": {
+          "type": "string"
+        },
+        "provider": {
+          "$ref": "#/components/schemas/Provider"
+        },
+        "providerSubject": {
+          "type": "string"
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "username": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "email": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "emailVerified": {
+          "type": "boolean"
+        },
+        "avatarUrl": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "ProviderStatus": {
+      "type": "object",
+      "required": [
+        "id",
+        "configured",
+        "enabled",
+        "available"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/Provider"
+        },
+        "configured": {
+          "type": "boolean"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "available": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ProviderStatuses": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ProviderStatus"
+      }
+    },
+    "ApiError": {
+      "type": "object",
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Transaction": {
+      "type": "object",
+      "required": [
+        "state",
+        "codeVerifier",
+        "codeChallenge",
+        "createdAt",
+        "expiresAt"
+      ],
+      "properties": {
+        "state": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{43}$"
+        },
+        "codeVerifier": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._~-]{43,128}$"
+        },
+        "codeChallenge": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{43}$"
+        },
+        "createdAt": {
+          "type": "integer"
+        },
+        "expiresAt": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "operations": {
+    "exchangeCode": {
+      "id": "exchangeCode",
+      "path": "/v1/token",
+      "method": "POST",
+      "auth": "client",
+      "requestSchema": "TokenRequest",
+      "responseSchema": "TokenResponse",
+      "successStatus": 200,
+      "fields": [
+        {
+          "wire": "grant_type",
+          "param": "grantType",
+          "value": "authorization_code"
+        },
+        {
+          "wire": "client_id",
+          "param": "clientId"
+        },
+        {
+          "wire": "client_secret",
+          "param": "clientSecret"
+        },
+        {
+          "wire": "code",
+          "param": "code"
+        },
+        {
+          "wire": "redirect_uri",
+          "param": "redirectUri"
+        },
+        {
+          "wire": "code_verifier",
+          "param": "codeVerifier"
+        }
+      ]
+    },
+    "profile": {
+      "id": "profile",
+      "path": "/v1/profile",
+      "method": "GET",
+      "auth": "bearer",
+      "requestSchema": null,
+      "responseSchema": "Profile",
+      "successStatus": 200,
+      "fields": []
+    },
+    "revoke": {
+      "id": "revoke",
+      "path": "/v1/revoke",
+      "method": "POST",
+      "auth": "bearer",
+      "requestSchema": null,
+      "responseSchema": null,
+      "successStatus": 204,
+      "fields": []
+    },
+    "providers": {
+      "id": "providers",
+      "path": "/api/providers",
+      "method": "GET",
+      "auth": "none",
+      "requestSchema": null,
+      "responseSchema": "ProviderStatuses",
+      "successStatus": 200,
+      "fields": []
+    }
+  }
+}

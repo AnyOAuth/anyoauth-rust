@@ -1,0 +1,23 @@
+{
+  "target": "rust",
+  "version": "0.1.0",
+  "tag": "v0.1.0",
+  "repository": "https://github.com/AnyOAuth/anyoauth-rust",
+  "release": "https://github.com/AnyOAuth/anyoauth-rust/releases/tag/v0.1.0",
+  "schemaSha256": "1b99cb23da24b2aa0af33d45aadf907de460185671bc29fa61402450e390d6a2",
+  "sourceCommit": "c44e7460cbebe26a6baa00bc6c4ee2f48d69e907",
+  "files": {
+    ".github/workflows/verify.yml": "f7e04bb3003a97bb7948a0d6342864667ba8359013baee89e1ade07c26990860",
+    ".gitignore": "83e9133e57dda751344052d09ba612ed1216c2f4a427b72021061bea57d95074",
+    "Cargo.lock": "457b6968a2436c76270aead9562844e8af2e0be39e87daae205acfba55bb82bf",
+    "Cargo.toml": "befd4faae50e3e2dcf486c66471fb7fccfdde408e22f7b44d1237f5eefb9c3f8",
+    "LICENSE": "3c9fac2d1ae230e52ce82ed635341b438e0c4957bc637a1a792c2def5b82c61a",
+    "README.md": "739e0591bba8a11a8006c86b824a09f714f405ad73dad2e82b2d253040fc804a",
+    "contract.json": "c63a01517cf66ae37cdc9e6adb822254a8c4368a78188e2bdc34b1a50138c1d0",
+    "provenance.json": "62dbe7198ab6d392df7e4046816e70435eaccf44131faebbe65da21c9af8476f",
+    "src/lib.rs": "2b16a3a79197bf27131e7f359c7ca1c43fb96707189a1818bfca667204310e89",
+    "test/conformance/check.mjs": "e52999370764184973f5a1812f0e808b179aa858220edf1c079d0277afbf5a53",
+    "test/conformance/main.rs": "3f62e11221cf48b2131eaa2d794df65e6018850f4abcbe2ec593ef085e3cd167",
+    "verify.mjs": "081a33139d2c1352ee69248a22a08bfd98f0a2620526c8d5bd1235129fdd2dbd"
+  }
+}
